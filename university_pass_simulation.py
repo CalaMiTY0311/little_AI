@@ -44,4 +44,5 @@ model.fit(np.array(x_data) , np.array(y_data), epochs=3000)
 # x데이터와 y데이터 위에 참고
 
 #예측
-#
+will = model.predict([[750, 3.70, 3],[400,2.2,1]]) 
+print(will)
