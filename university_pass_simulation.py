@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 data = pd.read_csv('gpascore.csv')
 #만약만약에 중단에 있어야하는 값이 공백으로 있어서 찾고싶다
@@ -29,11 +30,11 @@ model = tf.keras.models.Sequential([
                                                         #Dense(1)은 마지막 출력레이어기 때문에 1로 표현
 ])
 
-model.compile(optimizer='adam',loss='binary_crossentropy', metrics=['accuracy'] )
+model.compile(optimizer= tf.keras.optimizers.Adam(lr=0.01),loss='binary_crossentropy', metrics=['accuracy'] )
 #loss 확률 예측에 자주 사용하는 함수 binary_crossentropy
 #즉 이번 결과 0과 1사이의 분류/확률 문제에서 사용하는 함수임
 
-model.fit(np.array(x_data) , np.array(y_data), epochs=3000)         
+history = model.fit(np.array(x_data) , np.array(y_data), epochs=3000)         
 #fit 모델 학습시키기
 #epochs 학습 전체 데이터셋을 열번 반복하면서 학습시키는것임
 #fit 첫번쨰 인자에는 학습데이터(정답예측에 필요한 인풋) ,두번째는 실제 정답
@@ -46,3 +47,18 @@ model.fit(np.array(x_data) , np.array(y_data), epochs=3000)
 #예측
 will = model.predict([[750, 3.70, 3],[400,2.2,1]]) 
 print(will)
+
+
+plt.plot(history.history['loss'])
+#plt.plot(history.history['val_loss'])
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train_loss'])
+plt.show()
+
+plt.plot(history.history['accuracy'])
+#plt.plot(history.history['val_accuracy'])
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train_accuracy'])
+plt.show()
